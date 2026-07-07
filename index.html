@@ -8,22 +8,18 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #06080D; color: #D1D5DB; line-height: 1.7; }
 
-/* ── Nav ── */
 .nav { position:sticky; top:0; z-index:100; background: rgba(6,8,13,0.85); backdrop-filter: blur(16px); border-bottom:1px solid rgba(255,255,255,0.06); padding:0 24px; display:flex; align-items:center; justify-content:space-between; height:56px; }
 .nav-logo { font-weight:800; font-size:16px; color:#F9FAFB; letter-spacing:-.3px; }
 .nav-actions { display:flex; align-items:center; gap:10px; }
 .nav-btn { padding:7px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:#D1D5DB; font-size:13px; cursor:pointer; transition:.2s; font-family:inherit; white-space:nowrap; }
 .nav-btn:hover { border-color:rgba(255,255,255,0.2); background:rgba(255,255,255,0.08); }
 .nav-btn.active { background:rgba(99,102,241,0.15); border-color:rgba(99,102,241,0.3); color:#A5B4FC; }
-
-/* ── Search ── */
 .search-wrap { position:relative; }
 .search-wrap input { padding:7px 14px 7px 34px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.04); color:#F9FAFB; font-size:13px; width:200px; outline:none; font-family:inherit; transition:.2s; }
 .search-wrap input:focus { border-color:rgba(99,102,241,0.4); width:260px; }
 .search-wrap input::placeholder { color:#4B5563; }
 .search-wrap .sicon { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:#4B5563; font-size:13px; pointer-events:none; }
 
-/* ── Hero ── */
 .hero { padding:80px 20px 60px; text-align:center; position:relative; overflow:hidden; }
 .hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background:linear-gradient(90deg, transparent, rgba(99,102,241,0.2), transparent); }
 .hero .badge { display:inline-block; padding:5px 16px; border-radius:20px; background:rgba(99,102,241,0.1); color:#A5B4FC; font-size:12px; font-weight:600; margin-bottom:20px; border:1px solid rgba(99,102,241,0.15); }
@@ -31,48 +27,48 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft
 .hero h1 .accent { background:linear-gradient(135deg, #A5B4FC, #6366F1); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 .hero .sub { font-size:17px; color:#6B7280; max-width:500px; margin:0 auto; }
 
-/* ── Main ── */
 .main { max-width:1200px; margin:0 auto; padding:0 24px 100px; }
 
-/* ── Section ── */
-.section { margin-top:56px; }
-.section-head { display:flex; align-items:center; gap:12px; margin-bottom:24px; }
-.section-head .icon { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px; }
-.section-head h2 { font-size:19px; font-weight:700; color:#F3F4F6; letter-spacing:-.2px; }
-.section-head .cnt { font-size:12px; color:#4B5563; padding:2px 8px; border-radius:8px; background:rgba(255,255,255,0.04); }
+/* ── Module ── */
+.module { margin-top:56px; }
+.module-head { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+.module-head .icon { width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px; background:rgba(129,140,248,0.12); color:#A5B4FC; }
+.module-head h2 { font-size:19px; font-weight:700; color:#F3F4F6; letter-spacing:-.2px; }
+.module-head .cnt { font-size:12px; color:#4B5563; padding:2px 8px; border-radius:8px; background:rgba(255,255,255,0.04); }
+.module-desc { font-size:13px; color:#6B7280; margin-bottom:24px; padding-left:44px; }
 
 .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap:16px; }
 
-/* ── Card ── */
 .card { background:#0D1117; border-radius:14px; overflow:hidden; cursor:pointer; transition:all .25s; border:1px solid #161B22; }
 .card:hover { transform:translateY(-2px); border-color:#30363D; box-shadow:0 8px 30px rgba(0,0,0,0.4); }
 .card:hover .play-dot { opacity:1; transform:translate(-50%,-50%) scale(1); }
 .card-thumb { aspect-ratio:16/9; background:#0F1419; position:relative; display:flex; align-items:center; justify-content:center; }
-.card-thumb .bg { position:absolute; inset:0; opacity:.3; }
+.card-thumb .bg { position:absolute; inset:0; opacity:.3; background:linear-gradient(135deg, rgba(99,102,241,0.12), rgba(129,140,248,0.04)); }
 .card-thumb .sn { font-size:64px; font-weight:900; opacity:.06; color:#F9FAFB; }
 .play-dot { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) scale(.85); width:50px; height:50px; border-radius:50%; background:rgba(99,102,241,0.85); display:flex; align-items:center; justify-content:center; opacity:.65; transition:all .3s; }
 .play-dot::after { content:''; display:block; width:0; height:0; border-left:12px solid #fff; border-top:7px solid transparent; border-bottom:7px solid transparent; margin-left:2px; }
 .card-info { padding:16px 18px 18px; }
 .card-top { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
-.card-num { font-size:11px; font-weight:700; padding:2px 8px; border-radius:6px; }
-.card-time { font-size:11px; color:#484F58; }
+.card-num { font-size:11px; font-weight:700; padding:2px 8px; border-radius:6px; background:rgba(129,140,248,0.12); color:#A5B4FC; }
 .card-title { font-size:16px; font-weight:700; color:#E6EDF3; margin-bottom:4px; }
-.card-desc { font-size:12.5px; color:#8B949E; line-height:1.55; }
+.card-desc { font-size:12.5px; color:#8B949E; line-height:1.55; margin-bottom:2px; }
+.card-why { font-size:11.5px; color:#6366F1; }
 
 /* ── Outline Panel ── */
 .outline-panel { display:none; background:#0D1117; border:1px solid #161B22; border-radius:16px; padding:32px; margin-top:56px; }
 .outline-panel.on { display:block; }
-.outline-panel h2 { font-size:20px; font-weight:800; color:#F3F4F6; margin-bottom:28px; text-align:center; }
-.outline-group { margin-bottom:24px; }
-.outline-group:last-child { margin-bottom:0; }
-.outline-ghead { display:flex; align-items:center; gap:10px; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid #161B22; }
-.outline-ghead .gdot { width:8px; height:8px; border-radius:50%; }
-.outline-ghead h3 { font-size:14px; font-weight:700; color:#E6EDF3; }
-.outline-row { display:flex; align-items:baseline; gap:12px; padding:6px 0 6px 20px; cursor:pointer; border-radius:6px; transition:.15s; }
+.outline-panel h2 { font-size:20px; font-weight:800; color:#F3F4F6; margin-bottom:24px; text-align:center; }
+.outline-row { display:flex; align-items:baseline; gap:12px; padding:8px 12px; cursor:pointer; border-radius:8px; transition:.15s; border-bottom:1px solid #0D1117; }
 .outline-row:hover { background:rgba(255,255,255,0.03); }
-.outline-row .onum { font-size:12px; font-weight:700; min-width:42px; }
-.outline-row .otitle { font-size:13px; color:#E6EDF3; font-weight:600; flex:1; }
-.outline-row .odur { font-size:11px; color:#484F58; white-space:nowrap; }
+.outline-row .onum { font-size:12px; font-weight:700; color:#A5B4FC; min-width:50px; background:rgba(129,140,248,0.1); padding:2px 8px; border-radius:6px; text-align:center; }
+.outline-row .obody { flex:1; }
+.outline-row .otitle { font-size:13px; color:#E6EDF3; font-weight:600; }
+.outline-row .odesc { font-size:11.5px; color:#6B7280; margin-top:2px; line-height:1.5; }
+
+/* ── Coming Soon ── */
+.coming { margin-top:64px; text-align:center; padding:48px 24px; border:1px dashed #161B22; border-radius:16px; }
+.coming h3 { font-size:17px; color:#484F58; font-weight:600; margin-bottom:8px; }
+.coming p { font-size:13px; color:#30363D; }
 
 /* ── Modal ── */
 .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:200; align-items:center; justify-content:center; padding:20px; }
@@ -91,13 +87,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft
 
 .footer { text-align:center; padding:48px 20px; color:#30363D; font-size:12px; border-top:1px solid #0D1117; }
 .no-results { text-align:center; padding:40px; color:#484F58; font-size:14px; display:none; }
-
-/* ── Series accents ── */
-.s1 .card-num, .s1 .onum { background:rgba(129,140,248,0.12); color:#A5B4FC; } .s1 .icon { background:rgba(129,140,248,0.12); color:#A5B4FC; } .s1 .bg { background:linear-gradient(135deg, rgba(99,102,241,0.15), rgba(129,140,248,0.05)); } .s1 .gdot { background:#818CF8; }
-.s2 .card-num, .s2 .onum { background:rgba(245,158,11,0.12); color:#FBBF24; } .s2 .icon { background:rgba(245,158,11,0.12); color:#FBBF24; } .s2 .bg { background:linear-gradient(135deg, rgba(245,158,11,0.12), rgba(251,191,36,0.04)); } .s2 .gdot { background:#F59E0B; }
-.s3 .card-num, .s3 .onum { background:rgba(244,63,94,0.12); color:#FB7185; } .s3 .icon { background:rgba(244,63,94,0.12); color:#FB7185; } .s3 .bg { background:linear-gradient(135deg, rgba(244,63,94,0.12), rgba(251,113,133,0.04)); } .s3 .gdot { background:#F43F5E; }
-.s4 .card-num, .s4 .onum { background:rgba(16,185,129,0.12); color:#34D399; } .s4 .icon { background:rgba(16,185,129,0.12); color:#34D399; } .s4 .bg { background:linear-gradient(135deg, rgba(16,185,129,0.12), rgba(52,211,153,0.04)); } .s4 .gdot { background:#10B981; }
-.s5 .card-num, .s5 .onum { background:rgba(139,92,246,0.12); color:#A78BFA; } .s5 .icon { background:rgba(139,92,246,0.12); color:#A78BFA; } .s5 .bg { background:linear-gradient(135deg, rgba(139,92,246,0.12), rgba(167,139,250,0.04)); } .s5 .gdot { background:#8B5CF6; }
 
 @media (max-width:700px) {
   .hero h1 { font-size:28px; } .grid { grid-template-columns:1fr; }
@@ -120,21 +109,31 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft
 </nav>
 
 <div class="hero">
-  <div class="badge">视频教程系列</div>
+  <div class="badge">视频教程</div>
   <h1><span class="accent">节点引擎</span> 从入门到精通</h1>
   <p class="sub">手把手教你打造自己的 AI 超级节点</p>
 </div>
 
 <div class="main">
 
-  <!-- ═══ 课程大纲 ═══ -->
   <div class="outline-panel" id="outline"></div>
 
-  <div class="section s1"><div class="section-head"><div class="icon">🧭</div><h2>认识节点 · 接入节点</h2><div class="cnt">2 集</div></div><div class="grid" id="g1"></div></div>
-  <div class="section s2"><div class="section-head"><div class="icon">🛠</div><h2>使用技巧 · 越用越顺手</h2><div class="cnt">9 集</div></div><div class="grid" id="g2"></div></div>
-  <div class="section s3"><div class="section-head"><div class="icon">🧬</div><h2>把你的经验变成节点的能力</h2><div class="cnt">3 集</div></div><div class="grid" id="g3"></div></div>
-  <div class="section s4"><div class="section-head"><div class="icon">🎯</div><h2>真实场景 · 让节点替你干活</h2><div class="cnt">2 集</div></div><div class="grid" id="g4"></div></div>
-  <div class="section s5"><div class="section-head"><div class="icon">🚀</div><h2>持续进化 · 节点和你一起成长</h2><div class="cnt">1 集</div></div><div class="grid" id="g5"></div></div>
+  <!-- ═══ 入门篇 ═══ -->
+  <div class="module">
+    <div class="module-head">
+      <div class="icon">🚀</div>
+      <h2>入门篇</h2>
+      <div class="cnt">8 集</div>
+    </div>
+    <div class="module-desc">从零开始，覆盖注册接入到独立完成第一个任务的完整路径。每集聚焦一个核心操作，看完就能上手。</div>
+    <div class="grid" id="g1"></div>
+  </div>
+
+  <!-- ═══ 更多内容 ═══ -->
+  <div class="coming">
+    <h3>更多系列即将上线</h3>
+    <p>使用技巧 · 经验蒸馏 · 场景实战 · 持续进化</p>
+  </div>
 
   <div class="no-results" id="nores">没有找到匹配的课程</div>
 </div>
@@ -148,7 +147,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft
       <div class="modal-video">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/></svg>
         <div class="vt" id="mv">视频即将上线</div>
-        <div class="vh" id="mh">录制完成后自动替换</div>
+        <div class="vh" id="mh">录制完成后替换</div>
       </div>
       <div class="modal-info" id="mi"></div>
     </div>
@@ -157,57 +156,34 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft
 
 <script>
 const eps = [
-  { g:'g1', s:'s1', n:1, t:'AI时代，你在第几层？', d:'世界正在按人与AI超级生产力的距离重新分层。别做围观者——先看清局面，再决定怎么走。', dur:'1分30秒', tag:'认知' },
-  { g:'g1', s:'s1', n:2, t:'2分钟接入你的AI超级节点', d:'注册账号、看一眼后台、连接飞书、发出第一条消息。模型和工具平台全部帮你配好，你只负责接入。', dur:'2分钟', tag:'接入' },
-
-  { g:'g2', s:'s2', n:3, t:'让节点记住你', d:'告诉节点你是谁、做什么工作、喜欢什么风格。30秒自我介绍，以后每次对话都省时间。', dur:'1分30秒', tag:'基础' },
-  { g:'g2', s:'s2', n:4, t:'这样提问，节点秒懂你', d:'学会给格式、给例子、给约束。同样的问题，问法不同结果天差地别——看完这集你就知道了。', dur:'1分30秒', tag:'基础' },
-  { g:'g2', s:'s2', n:5, t:'省 Token 的 3 个好习惯', d:'别寒暄、一次把话说完、不确定时让节点反问你。三个小习惯，让你用得更聪明。', dur:'1分20秒', tag:'技巧' },
-  { g:'g2', s:'s2', n:6, t:'文件处理的 3 种姿势', d:'拖文件到对话框、复制粘贴长文本、发链接让节点自己读。PDF、Word、图片、录音——全都能处理。', dur:'1分30秒', tag:'技巧' },
-  { g:'g2', s:'s2', n:7, t:'答错了别重来，纠正它', d:'节点答偏了？一句话纠正。理解错了？补充背景就好。不用重新提问，改比写快。', dur:'1分钟', tag:'技巧' },
-  { g:'g2', s:'s2', n:8, t:'用语音跟节点说话', d:'开车、走路、懒得打字——直接发语音，节点自动转文字然后处理。解放双手，效率翻倍。', dur:'1分钟', tag:'技巧' },
-  { g:'g2', s:'s2', n:9, t:'让节点记住你的常用模板', d:'教它一次你的周报格式、方案结构、邮件模板。以后说「写周报」，它直接按你的模板来。', dur:'1分20秒', tag:'进阶' },
-  { g:'g2', s:'s2', n:10, t:'睡前丢任务，醒来收结果', d:'晚上把长任务发给它——整理资料、做分析、写报告。第二天打开飞书，结果已经在等着你了。', dur:'1分20秒', tag:'进阶' },
-  { g:'g2', s:'s2', n:11, t:'让节点替你干活', d:'给它一个完整任务——搜索、整理、分析、输出，全部自动完成。前面学的一切，都是为了这件事。', dur:'1分40秒', tag:'进阶' },
-
-  { g:'g3', s:'s3', n:12, t:'把人脉变成节点的记忆', d:'把重要联系人的信息告诉节点。下次出差前，让它帮你筛选该见谁、写什么约见文案。', dur:'1分30秒', tag:'蒸馏' },
-  { g:'g3', s:'s3', n:13, t:'把经验变成节点的能力', d:'录音→转文字→提炼→写文章→做PPT——整条链路教它一次，以后说三个字它就能跑完。', dur:'1分40秒', tag:'蒸馏' },
-  { g:'g3', s:'s3', n:14, t:'把项目变成长期的伙伴', d:'项目背景、进度、决策全部记录。过几天回来继续聊，它还记得走到哪了。', dur:'1分30秒', tag:'蒸馏' },
-
-  { g:'g4', s:'s4', n:15, t:'用节点搞定一天的工作', d:'从早上的待办整理，到中午的会议纪要，到下午的方案撰写，到晚上的复盘总结——全程陪伴。', dur:'1分30秒', tag:'场景' },
-  { g:'g4', s:'s4', n:16, t:'从想法到产品，一条龙', d:'你只需要说「我想做XX」，节点帮你理需求、做设计、写代码、部署上线。你是AI的指挥官。', dur:'2分钟', tag:'场景' },
-
-  { g:'g5', s:'s5', n:17, t:'一个月后的节点长什么样', d:'第一周它只是聊天工具。一个月后，它记得你的人、你的项目、你的风格——它是你的AI分身。', dur:'1分20秒', tag:'进化' },
-];
-
-const groups = [
-  { s:'s1', icon:'🧭', title:'认识节点 · 接入节点', eps:eps.filter(e=>e.g==='g1') },
-  { s:'s2', icon:'🛠', title:'使用技巧 · 越用越顺手', eps:eps.filter(e=>e.g==='g2') },
-  { s:'s3', icon:'🧬', title:'把你的经验变成节点的能力', eps:eps.filter(e=>e.g==='g3') },
-  { s:'s4', icon:'🎯', title:'真实场景 · 让节点替你干活', eps:eps.filter(e=>e.g==='g4') },
-  { s:'s5', icon:'🚀', title:'持续进化 · 节点和你一起成长', eps:eps.filter(e=>e.g==='g5') },
+  { n:1, t:'3分钟拥有你的AI节点', content:'用户通过手机号注册节点引擎账号，进入后台了解基础界面，完成飞书连接，并发出第一条消息。', why:'解决新用户「从哪里开始」的问题，是整个教程的入口。' },
+  { n:2, t:'第一次对话，该说什么', content:'演示完整的首次对话流程：先让节点了解用户的身份和偏好，再给它第一个具体任务，帮助用户迈出第一步。', why:'消除新用户「不知道聊什么」的心理门槛。' },
+  { n:3, t:'发语音，说话就能用', content:'用户可以在飞书中直接发送语音消息，节点自动将语音转为文字后处理。适合开车、走路、不方便打字的场景。', why:'降低使用门槛，让用户在任何场景下都能使用节点。' },
+  { n:4, t:'把文件给它，让它帮你读', content:'用户可以通过三种方式向节点发送文件：直接拖拽、复制粘贴文本、发送网页链接。节点支持PDF、Word、图片、录音等多种格式。', why:'展示节点的文件处理能力，让用户知道所有材料都可以交给节点消化。' },
+  { n:5, t:'让它把做好的东西发给你', content:'节点完成文档、PPT、表格等内容后，可直接将文件发送到飞书对话框供用户下载。如果未自动发送，用户只需一句话即可让它重新导出。', why:'解决「东西做好了怎么拿」的实际问题。' },
+  { n:6, t:'它答错了，改一下就行', content:'节点回答不理想时，用户无需重新提问。一句纠正即可调整方向——「太学术了，用大白话重写」或「不对，我要的是给小学生用的」。', why:'教会用户高效纠偏，避免因一次不理想的回答而放弃使用。' },
+  { n:7, t:'让节点记住你', content:'节点具备持久记忆能力。用户首次介绍身份和偏好后，后续对话中节点会自动调用这些信息，无需重复说明。', why:'展示节点的长期价值——用得越久，越懂用户。' },
+  { n:8, t:'让它替你干一件完整的事', content:'用户给节点一个完整任务——搜索、整理、分析、输出——节点自主完成全流程。通过真实案例对比自己动手与节点代劳的效率差距。', why:'入门系列的收尾，让用户直观感受节点的生产力价值。' },
 ];
 
 function buildOutline() {
-  let h = '<h2>📋 全部课程大纲</h2>';
-  for (const grp of groups) {
-    h += `<div class="outline-group ${grp.s}"><div class="outline-ghead"><div class="gdot"></div><h3>${grp.icon} ${grp.title}</h3></div>`;
-    for (const ep of grp.eps) {
-      h += `<div class="outline-row" onclick="openModal(eps[${eps.indexOf(ep)}])"><span class="onum">第${ep.n}集</span><span class="otitle">${ep.t}</span><span class="odur">⏱ ${ep.dur}</span></div>`;
-    }
-    h += '</div>';
+  let h = '<h2>📋 入门篇 · 课程大纲</h2>';
+  for (const ep of eps) {
+    h += `<div class="outline-row" onclick="openModal(${ep.n})">
+      <span class="onum">第${ep.n}集</span>
+      <div class="obody"><div class="otitle">${ep.t}</div><div class="odesc">${ep.content}</div></div>
+    </div>`;
   }
   document.getElementById('outline').innerHTML = h;
 }
+buildOutline();
 
 function toggleOutline() {
   const p = document.getElementById('outline');
   const b = document.getElementById('outlineBtn');
   p.classList.toggle('on');
   b.classList.toggle('active');
-  if (p.classList.contains('on')) {
-    p.scrollIntoView({ behavior:'smooth' });
-  }
+  if (p.classList.contains('on')) p.scrollIntoView({ behavior:'smooth' });
 }
 
 function doSearch() {
@@ -216,45 +192,38 @@ function doSearch() {
   for (const ep of eps) {
     const card = document.querySelector(`[data-ep="${ep.n}"]`);
     if (!card) continue;
-    const match = !q || ep.t.toLowerCase().includes(q) || ep.d.toLowerCase().includes(q) || ep.tag.toLowerCase().includes(q);
+    const match = !q || ep.t.toLowerCase().includes(q) || ep.content.toLowerCase().includes(q);
     card.style.display = match ? '' : 'none';
     if (match) any = true;
   }
   document.getElementById('nores').style.display = any ? 'none' : 'block';
-  // Hide empty sections
-  for (let i=1; i<=5; i++) {
-    const g = document.getElementById('g'+i);
-    const vis = g.querySelectorAll('.card[style*="display: none"]').length;
-    const total = g.querySelectorAll('.card').length;
-    g.parentElement.style.display = (vis === total && q) ? 'none' : '';
-  }
 }
 
 // Render cards
 for (const ep of eps) {
-  const g = document.getElementById(ep.g);
+  const g = document.getElementById('g1');
   const card = document.createElement('div');
-  card.className = `card ${ep.s}`;
+  card.className = 'card';
   card.setAttribute('data-ep', ep.n);
-  card.onclick = () => openModal(ep);
+  card.onclick = () => openModal(ep.n);
   card.innerHTML = `<div class="card-thumb">
     <div class="bg"></div><div class="sn">${String(ep.n).padStart(2,'0')}</div><div class="play-dot"></div>
   </div>
   <div class="card-info">
-    <div class="card-top"><span class="card-num">第${ep.n}集</span><span class="card-time">⏱ ${ep.dur}</span></div>
+    <div class="card-top"><span class="card-num">第${ep.n}集</span></div>
     <div class="card-title">${ep.t}</div>
-    <div class="card-desc">${ep.d}</div>
+    <div class="card-desc">${ep.content}</div>
+    <div class="card-why">${ep.why}</div>
   </div>`;
   g.appendChild(card);
 }
 
-buildOutline();
-
-function openModal(ep) {
-  document.getElementById('mt').textContent = `第${ep.n}集  ${ep.t}`;
+function openModal(n) {
+  const ep = eps[n-1];
+  document.getElementById('mt').textContent = `第${n}集  ${ep.t}`;
   document.getElementById('mv').textContent = '视频即将上线';
-  document.getElementById('mh').textContent = `⏱ ${ep.dur} · 录制完成后替换`;
-  document.getElementById('mi').textContent = ep.d;
+  document.getElementById('mh').textContent = '录制完成后替换';
+  document.getElementById('mi').innerHTML = `<p style="margin-bottom:12px">${ep.content}</p><p style="color:#6366F1">${ep.why}</p>`;
   document.getElementById('ol').classList.add('on');
   document.body.style.overflow = 'hidden';
 }
