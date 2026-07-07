@@ -213,7 +213,6 @@ for (const ep of eps) {
     <div class="card-top"><span class="card-num">第${ep.n}集</span></div>
     <div class="card-title">${ep.t}</div>
     <div class="card-desc">${ep.content}</div>
-    <div class="card-why">${ep.why}</div>
   </div>`;
   g.appendChild(card);
 }
@@ -223,7 +222,7 @@ function openModal(n) {
   document.getElementById('mt').textContent = `第${n}集  ${ep.t}`;
   document.getElementById('mv').textContent = '视频即将上线';
   document.getElementById('mh').textContent = '录制完成后替换';
-  document.getElementById('mi').innerHTML = `<p style="margin-bottom:12px">${ep.content}</p><p style="color:#6366F1">${ep.why}</p>`;
+  document.getElementById('mi').innerHTML = `<p>${ep.content}</p>`;
   document.getElementById('ol').classList.add('on');
   document.body.style.overflow = 'hidden';
 }
