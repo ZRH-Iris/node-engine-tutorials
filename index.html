@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>节点引擎 · 视频教程</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #0F172A; color: #F8FAFC; line-height: 1.6; }
+a { color: inherit; text-decoration: none; }
+
+/* Hero */
+.hero { text-align: center; padding: 80px 20px 60px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%); pointer-events: none; }
+.hero-topbar { width: 100%; height: 4px; background: #6366F1; position: absolute; top: 0; left: 0; }
+.hero h1 { font-size: 42px; font-weight: 900; margin-bottom: 12px; letter-spacing: 2px; }
+.hero h1 span { color: #818CF8; }
+.hero p { font-size: 18px; color: #94A3B8; max-width: 600px; margin: 0 auto 30px; }
+.hero .meta { font-size: 14px; color: #64748B; }
+.hero .meta span { margin: 0 12px; }
+
+/* Container */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px 80px; }
+
+/* Section headers */
+.section-title { font-size: 24px; font-weight: 800; margin: 60px 0 24px; padding-left: 16px; border-left: 4px solid; display: flex; align-items: center; gap: 10px; }
+.section-title .num { font-size: 14px; font-weight: 600; padding: 2px 10px; border-radius: 20px; }
+.s1 .section-title { border-color: #818CF8; } .s1 .num { background: #818CF820; color: #818CF8; }
+.s2 .section-title { border-color: #F59E0B; } .s2 .num { background: #F59E0B20; color: #F59E0B; }
+.s3 .section-title { border-color: #F43F5E; } .s3 .num { background: #F43F5E20; color: #F43F5E; }
+.s4 .section-title { border-color: #10B981; } .s4 .num { background: #10B98120; color: #10B981; }
+.s5 .section-title { border-color: #818CF8; } .s5 .num { background: #818CF820; color: #818CF8; }
+
+/* Episodes grid */
+.episodes { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.ep-card { background: #1E293B; border-radius: 12px; overflow: hidden; cursor: pointer; transition: transform .2s, box-shadow .2s; border: 1px solid #334155; }
+.ep-card:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); border-color: #6366F1; }
+.ep-card-inner { padding: 20px; }
+.ep-num { font-size: 12px; font-weight: 700; color: #6366F1; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.ep-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: #F1F5F9; }
+.ep-desc { font-size: 13px; color: #94A3B8; line-height: 1.5; margin-bottom: 12px; }
+.ep-tag { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 12px; background: #6366F120; color: #818CF8; }
+.ep-duration { font-size: 12px; color: #64748B; margin-top: 8px; }
+
+/* Video modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+.modal-overlay.active { display: flex; }
+.modal { background: #1E293B; border-radius: 16px; width: 100%; max-width: 900px; border: 1px solid #334155; overflow: hidden; }
+.modal-header { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+.modal-header h3 { font-size: 18px; font-weight: 700; }
+.modal-close { background: none; border: none; color: #94A3B8; font-size: 24px; cursor: pointer; padding: 4px 8px; border-radius: 8px; }
+.modal-close:hover { background: #334155; color: #F8FAFC; }
+.modal-body { padding: 24px; }
+.modal-body .placeholder { aspect-ratio: 16/9; background: #0F172A; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #64748B; border: 2px dashed #334155; }
+.modal-body .placeholder svg { width: 64px; height: 64px; margin-bottom: 16px; opacity: 0.5; }
+.modal-body .placeholder p { font-size: 15px; }
+.modal-body .placeholder .hint { font-size: 13px; color: #475569; margin-top: 8px; }
+.modal-desc { margin-top: 16px; font-size: 14px; color: #94A3B8; line-height: 1.7; }
+
+/* Footer */
+.footer { text-align: center; padding: 40px 20px; color: #475569; font-size: 13px; border-top: 1px solid #1E293B; }
+.footer a { color: #818CF8; }
+
+@media (max-width: 700px) {
+  .hero h1 { font-size: 28px; }
+  .episodes { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-topbar"></div>
+  <h1>节点引擎 <span>·</span> 视频教程</h1>
+  <p>从零开始，打造属于你自己的 AI 超级节点</p>
+  <div class="meta">共 <span>14</span> 集 <span>·</span> 每集 1–2 分钟 <span>·</span> 录屏 + 配音</div>
+</div>
+
+<div class="container">
+
+  <!-- 认知篇 + 接入篇 -->
+  <div class="s1">
+    <div class="section-title"><span class="num">认知 + 接入</span>从这里开始</div>
+    <div class="episodes" id="sec1"></div>
+  </div>
+
+  <!-- 使用技巧篇 -->
+  <div class="s2">
+    <div class="section-title"><span class="num">使用技巧</span>让节点越用越顺手</div>
+    <div class="episodes" id="sec2"></div>
+  </div>
+
+  <!-- 蒸馏篇 -->
+  <div class="s3">
+    <div class="section-title"><span class="num">蒸馏篇</span>把你的经验变成节点的能力</div>
+    <div class="episodes" id="sec3"></div>
+  </div>
+
+  <!-- 场景实战篇 -->
+  <div class="s4">
+    <div class="section-title"><span class="num">场景实战</span>让节点替你干活</div>
+    <div class="episodes" id="sec4"></div>
+  </div>
+
+  <!-- 进阶篇 -->
+  <div class="s5">
+    <div class="section-title"><span class="num">进阶</span>节点和你一起成长</div>
+    <div class="episodes" id="sec5"></div>
+  </div>
+
+</div>
+
+<div class="footer">
+  节点引擎 · 帮助先知者打造连接 AI 超级生产力的节点<br>
+  <a href="http://47.120.13.126/" target="_blank">进入节点引擎</a>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle"></h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5,3 19,12 5,21"/></svg>
+        <p id="modalPlaceholder">视频即将上线</p>
+        <div class="hint" id="modalHint">录制完成后替换为播放链接</div>
+      </div>
+      <div class="modal-desc" id="modalDesc"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const episodes = [
+  { sec:1, num:'第0集', title:'AI时代，你在第几层？', desc:'世界正在按人与AI超级生产力的距离重新分层。你在哪一层？', dur:'1分30秒', tag:'认知篇' },
+  { sec:1, num:'第1集', title:'2分钟接入你的AI超级节点', desc:'注册 → 后台一览 → 连接飞书 → 发第一条消息。模型平台配好了，你只负责接入。', dur:'2分钟', tag:'接入篇' },
+  { sec:2, num:'第2集', title:'让节点记住你', desc:'告诉节点你的身份、工作、偏好。花30秒，以后每次都省时间。', dur:'1分30秒', tag:'基础' },
+  { sec:2, num:'第3集', title:'这样提问，节点秒懂', desc:'给格式、给例子、给约束。多花10秒说清楚，少花10分钟来回改。', dur:'1分30秒', tag:'基础' },
+  { sec:2, num:'第4集', title:'省Token的3个习惯', desc:'别寒暄、一次说完、让它反问。用得巧比用得多重要。', dur:'1分20秒', tag:'技巧' },
+  { sec:2, num:'第5集', title:'文件处理的3种姿势', desc:'拖文件、粘贴文本、发链接。所有材料丢进来，它帮你消化。', dur:'1分30秒', tag:'技巧' },
+  { sec:2, num:'第6集', title:'错了别重来，纠正它就行', desc:'答偏了一句话纠正，理解错了补充背景。不用重开对话。', dur:'1分钟', tag:'技巧' },
+  { sec:2, num:'第7集', title:'让节点替你干活', desc:'丢一个完整任务，节点自己搜索、整理、分析、输出。', dur:'1分40秒', tag:'进阶' },
+  { sec:3, num:'第8集', title:'把人脉变成节点的记忆', desc:'把联系人信息喂给节点。节点是你的关系网络中枢。', dur:'1分30秒', tag:'蒸馏' },
+  { sec:3, num:'第9集', title:'把经验变成节点的能力', desc:'录音→转文字→提炼→文章→PPT，整条链路一次沉淀。', dur:'1分40秒', tag:'蒸馏' },
+  { sec:3, num:'第10集', title:'把项目变成长期的伙伴', desc:'项目背景、进度、决策全程记录。节点不是一次性帮手。', dur:'1分30秒', tag:'蒸馏' },
+  { sec:4, num:'第11集', title:'用节点搞定一天的工作', desc:'早上整理日程 → 中午出纪要 → 下午写方案 → 晚上做复盘。', dur:'1分30秒', tag:'场景' },
+  { sec:4, num:'第12集', title:'从想法到产品，一条龙', desc:'一个想法 → 理清需求 → 设计方案 → 开发上线。你是AI的指挥官。', dur:'2分钟', tag:'场景' },
+  { sec:5, num:'第13集', title:'一个月后，你的节点进化成什么样', desc:'第一周 vs 第四周。它不是静态工具，它会和你一起成长。', dur:'1分20秒', tag:'进化' },
+];
+
+function renderCards() {
+  const secs = {1:'sec1',2:'sec2',3:'sec3',4:'sec4',5:'sec5'};
+  for (const ep of episodes) {
+    const grid = document.getElementById(secs[ep.sec]);
+    const card = document.createElement('div');
+    card.className = 'ep-card';
+    card.onclick = () => openModal(ep);
+    card.innerHTML = `
+      <div class="ep-card-inner">
+        <div class="ep-num">${ep.num} · ${ep.tag}</div>
+        <div class="ep-title">${ep.title}</div>
+        <div class="ep-desc">${ep.desc}</div>
+        <div class="ep-duration">⏱ ${ep.dur}</div>
+      </div>`;
+    grid.appendChild(card);
+  }
+}
+
+function openModal(ep) {
+  document.getElementById('modalTitle').textContent = `${ep.num}  ${ep.title}`;
+  document.getElementById('modalPlaceholder').textContent = '视频即将上线';
+  document.getElementById('modalHint').textContent = `⏱ ${ep.dur} · 录制完成后替换为播放链接`;
+  document.getElementById('modalDesc').textContent = ep.desc;
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+renderCards();
+</script>
+
+</body>
+</html>
