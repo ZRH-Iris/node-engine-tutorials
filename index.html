@@ -454,8 +454,6 @@ body {
 
 <div class="main">
 
-  <div class="outline-panel" id="outline"></div>
-
   <div class="module">
     <div class="module-head">
       <div class="icon">🌟</div>
@@ -475,6 +473,13 @@ body {
 </div>
 
 <div class="footer">节点引擎 —— 帮助先知者打造连接 AI 超级生产力的节点</div>
+
+<div class="overlay" id="outlineOverlay" onclick="if(event.target===this)closeOutline()">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-head"><h3>📋 启蒙篇 · 课程大纲</h3><button class="modal-close" onclick="closeOutline()">✕</button></div>
+    <div class="modal-body" id="outlineBody"></div>
+  </div>
+</div>
 
 <div class="overlay" id="ol" onclick="if(event.target===this)closeModal()">
   <div class="modal">
@@ -523,16 +528,19 @@ const eps = [
 ];
 
 function buildOutline(){
-  let h='<h2>📋 启蒙篇 · 课程大纲</h2>';
-  for(const ep of eps) h+=`<div class="outline-row" onclick="openModal(${ep.n})"><span class="onum">第${ep.n}集</span><div class="obody"><div class="otitle">${ep.t}</div><div class="odesc">${ep.content}</div></div></div>`;
-  document.getElementById('outline').innerHTML=h;
+  let h='';
+  for(const ep of eps) h+=`<div class="outline-row" onclick="closeOutline();openModal(${ep.n})"><span class="onum">第${ep.n}集</span><div class="obody"><div class="otitle">${ep.t}</div><div class="odesc">${ep.content}</div></div></div>`;
+  document.getElementById('outlineBody').innerHTML=h;
 }
 buildOutline();
 
 function toggleOutline(){
-  const p=document.getElementById('outline'), b=document.getElementById('outlineBtn');
-  p.classList.toggle('on'); b.classList.toggle('active');
-  if(p.classList.contains('on')) p.scrollIntoView({behavior:'smooth'});
+  document.getElementById('outlineOverlay').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeOutline(){
+  document.getElementById('outlineOverlay').classList.remove('on');
+  document.body.style.overflow='';
 }
 
 function doSearch(){
@@ -570,7 +578,7 @@ function closeModal(){
   document.getElementById('ol').classList.remove('on');
   document.body.style.overflow='';
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeOutline();}});
 </script>
 </body>
 </html>
