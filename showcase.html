@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>节点引擎 · 入门教程</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background:#0A0E17; color:#E2E8F0; overflow-x:hidden;
+  scroll-behavior:smooth;
+}
+.slide {
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:60px 40px; text-align:center; position:relative;
+}
+.slide::after {
+  content:''; position:absolute; bottom:0; left:10%; right:10%;
+  height:1px; background:linear-gradient(90deg,transparent,rgba(99,102,241,.15),transparent);
+}
+
+/* ── Slide 1: Title ── */
+.slide-title { background:radial-gradient(ellipse at center, rgba(99,102,241,0.06) 0%, transparent 70%); }
+.slide-title .logo {
+  font-size:15px; font-weight:700; color:#6366F1; letter-spacing:2px;
+  text-transform:uppercase; margin-bottom:32px;
+  animation: fadeUp .8s ease;
+}
+.slide-title h1 {
+  font-size:clamp(36px,8vw,72px); font-weight:900; letter-spacing:-2px;
+  line-height:1.15; margin-bottom:16px; animation: fadeUp .8s .1s ease both;
+}
+.slide-title h1 span {
+  background:linear-gradient(135deg,#A5B4FC,#6366F1,#818CF8);
+  background-size:200% auto;
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation: shimmer 3s ease-in-out infinite;
+}
+.slide-title .sub {
+  font-size:18px; color:#475569; animation: fadeUp .8s .2s ease both;
+}
+.slide-title .ep-badge {
+  display:inline-block; margin-top:40px; padding:8px 24px;
+  border-radius:30px; border:1px solid rgba(99,102,241,.2);
+  background:rgba(99,102,241,.06); color:#818CF8;
+  font-size:14px; font-weight:600; animation: fadeUp .8s .3s ease both;
+}
+
+/* ── Slide: Chapter ── */
+.slide-chapter .step-num {
+  font-size:80px; font-weight:900; color:rgba(99,102,241,.06);
+  line-height:1; margin-bottom:-20px;
+}
+.slide-chapter h2 {
+  font-size:clamp(24px,5vw,42px); font-weight:800; letter-spacing:-1px;
+  margin-bottom:12px;
+}
+.slide-chapter .chap-sub {
+  font-size:16px; color:#475569; max-width:500px;
+}
+
+/* ── Slide: Key Point ── */
+.slide-point { gap:24px; }
+.slide-point .highlight-box {
+  background:rgba(99,102,241,.05); border:1px solid rgba(99,102,241,.15);
+  border-radius:20px; padding:40px 48px; max-width:700px;
+}
+.slide-point .highlight-box .icon { font-size:40px; margin-bottom:16px; }
+.slide-point .highlight-box p {
+  font-size:clamp(16px,2.5vw,22px); line-height:1.7; color:#B0B8C1;
+}
+.slide-point .highlight-box p strong { color:#E2E8F0; }
+
+/* ── Slide: Two Columns ── */
+.slide-two { gap:40px; }
+.slide-two h2 { font-size:clamp(22px,4vw,36px); font-weight:800; margin-bottom:40px; }
+.cols { display:flex; gap:24px; max-width:800px; width:100%; flex-wrap:wrap; justify-content:center; }
+.col {
+  flex:1; min-width:260px; max-width:380px;
+  background:rgba(17,22,32,.8); border:1px solid #1C2333;
+  border-radius:16px; padding:32px 24px; text-align:left;
+}
+.col .col-icon { font-size:32px; margin-bottom:12px; }
+.col h3 { font-size:18px; font-weight:700; color:#E2E8F0; margin-bottom:8px; }
+.col p { font-size:13px; color:#64748B; line-height:1.6; }
+
+/* ── Slide: Bullet List ── */
+.slide-bullets { gap:40px; }
+.slide-bullets h2 { font-size:clamp(22px,4vw,34px); font-weight:800; margin-bottom:8px; }
+.bullets { text-align:left; max-width:600px; width:100%; }
+.bullet {
+  display:flex; gap:14px; padding:16px 0; border-bottom:1px solid rgba(255,255,255,.03);
+  align-items:flex-start;
+}
+.bullet .b-num {
+  font-size:13px; font-weight:800; color:#6366F1;
+  background:rgba(99,102,241,.1); min-width:32px; height:32px;
+  border-radius:8px; display:flex; align-items:center; justify-content:center;
+}
+.bullet .b-text { font-size:15px; color:#B0B8C1; line-height:1.6; }
+.bullet .b-text strong { color:#E2E8F0; }
+
+/* ── Slide: Quote ── */
+.slide-quote { background:rgba(99,102,241,.02); }
+.slide-quote blockquote {
+  font-size:clamp(18px,3vw,28px); font-weight:600; color:#94A3B8;
+  max-width:700px; line-height:1.6; font-style:italic;
+  border-left:3px solid #6366F1; padding-left:24px; text-align:left;
+}
+.slide-quote blockquote strong { color:#E2E8F0; font-style:normal; }
+
+/* ── Slide: Grid Cards ── */
+.slide-grid { gap:32px; }
+.slide-grid h2 { font-size:clamp(20px,4vw,30px); font-weight:800; margin-bottom:8px; }
+.card-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:14px; max-width:900px; width:100%;
+}
+.gcard {
+  background:rgba(17,22,32,.8); border:1px solid #1C2333;
+  border-radius:14px; padding:24px 20px; transition:all .3s;
+}
+.gcard:hover { border-color:rgba(99,102,241,.3); }
+.gcard .gicon { font-size:28px; margin-bottom:10px; }
+.gcard h4 { font-size:14px; font-weight:700; color:#E2E8F0; margin-bottom:6px; }
+.gcard p { font-size:12px; color:#64748B; line-height:1.5; }
+
+/* ── Slide: Flow ── */
+.slide-flow { gap:32px; }
+.slide-flow h2 { font-size:clamp(20px,4vw,30px); font-weight:800; }
+.flow {
+  display:flex; align-items:center; gap:12px; max-width:800px;
+  flex-wrap:wrap; justify-content:center;
+}
+.flow-step {
+  background:rgba(17,22,32,.8); border:1px solid #1C2333;
+  border-radius:14px; padding:20px 24px; text-align:center;
+  min-width:120px;
+}
+.flow-step .fs-icon { font-size:28px; margin-bottom:8px; }
+.flow-step .fs-text { font-size:13px; color:#B0B8C1; font-weight:600; }
+.flow-arrow { font-size:20px; color:#1C2333; }
+
+/* ── Outro ── */
+.slide-outro {
+  background:radial-gradient(ellipse at center, rgba(99,102,241,0.08) 0%, transparent 70%);
+}
+.slide-outro h2 {
+  font-size:clamp(28px,6vw,48px); font-weight:900; letter-spacing:-1px;
+  margin-bottom:12px;
+}
+.slide-outro .sub { font-size:16px; color:#475569; }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+@keyframes shimmer {
+  0%,100% { background-position:0% center; }
+  50% { background-position:200% center; }
+}
+
+/* ── Nav dots ── */
+.nav-dots {
+  position:fixed; right:24px; top:50%; transform:translateY(-50%);
+  display:flex; flex-direction:column; gap:10px; z-index:10;
+}
+.nav-dots a {
+  width:8px; height:8px; border-radius:50%; background:#1C2333;
+  transition:all .3s; display:block;
+}
+.nav-dots a:hover, .nav-dots a.active { background:#6366F1; }
+
+@media (max-width:640px) {
+  .nav-dots { display:none; }
+  .slide { padding:40px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SLIDE 1: TITLE ═══════════ -->
+<div class="slide slide-title" id="s1">
+  <div class="logo">节点引擎 · 启蒙教程</div>
+  <h1><span>节点引擎</span><br>从入门到精通</h1>
+  <p class="sub">手把手教你打造自己的 AI 超级节点</p>
+  <div class="ep-badge">第 1 集：3分钟拥有你的AI节点</div>
+</div>
+
+<!-- ═══════════ SLIDE 2: 什么是节点 ═══════════ -->
+<div class="slide slide-quote" id="s2">
+  <blockquote>
+    AI 不是普通工具，而是<strong>超级生产力</strong>。<br><br>
+    节点，就是<strong>你接入这个超级生产力的接口</strong>。
+  </blockquote>
+</div>
+
+<!-- ═══════════ SLIDE 3: 流程总览 ═══════════ -->
+<div class="slide slide-flow" id="s3">
+  <h2>今天你会经历什么</h2>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="fs-icon">📱</div>
+      <div class="fs-text">扫码注册</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-icon">🔗</div>
+      <div class="fs-text">连接飞书</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-icon">💬</div>
+      <div class="fs-text">开始对话</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="fs-icon">👥</div>
+      <div class="fs-text">邀请朋友</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 4: 第一步 ═══════════ -->
+<div class="slide slide-chapter" id="s4">
+  <div class="step-num">01</div>
+  <h2>扫码注册</h2>
+  <p class="chap-sub">在微信中长按二维码，进入注册页面</p>
+</div>
+
+<!-- ═══════════ SLIDE 5: 注册表单提示 ═══════════ -->
+<div class="slide slide-bullets" id="s5">
+  <h2>注册只需四步</h2>
+  <div class="bullets">
+    <div class="bullet">
+      <div class="b-num">1</div>
+      <div class="b-text"><strong>设置用户名</strong> — 起一个你喜欢的名字</div>
+    </div>
+    <div class="bullet">
+      <div class="b-num">2</div>
+      <div class="b-text"><strong>输入手机号</strong> — 获取短信验证码</div>
+    </div>
+    <div class="bullet">
+      <div class="b-num">3</div>
+      <div class="b-text"><strong>填验证码</strong> — 输入收到的短信验证码</div>
+    </div>
+    <div class="bullet">
+      <div class="b-num">4</div>
+      <div class="b-text"><strong>邀请码已自动注入</strong> — 通过二维码进来的，无需手动填写</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 6: 两个世界 ═══════════ -->
+<div class="slide slide-two" id="s6">
+  <h2>你的节点有两个"世界"</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="col-icon">🏠</div>
+      <h3>节点引擎后台</h3>
+      <p>节点"住"的地方。<br>注册、数据、配置都在这里。<br>每个人都是独立加密分区。</p>
+    </div>
+    <div class="col">
+      <div class="col-icon">📞</div>
+      <h3>飞书</h3>
+      <p>你跟节点的"电话线"。<br>飞书只是通讯工具，<br>节点就像你飞书里的一个员工。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 7: 第二步 ═══════════ -->
+<div class="slide slide-chapter" id="s7">
+  <div class="step-num">02</div>
+  <h2>连接飞书</h2>
+  <p class="chap-sub">给你的节点接上"电话线"</p>
+</div>
+
+<!-- ═══════════ SLIDE 8: 连接方式 ═══════════ -->
+<div class="slide slide-grid" id="s8">
+  <h2>两种连接方式</h2>
+  <div class="card-grid">
+    <div class="gcard">
+      <div class="gicon">📱</div>
+      <h4>手机扫码创建</h4>
+      <p>用手机飞书扫描页面上的二维码</p>
+    </div>
+    <div class="gcard">
+      <div class="gicon">🔗</div>
+      <h4>直接连接</h4>
+      <p>点击跳转到飞书应用管理页面，选择头像、设定名称后创建</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 9: 安全 ═══════════ -->
+<div class="slide slide-point" id="s9">
+  <div class="highlight-box">
+    <div class="icon">🔐</div>
+    <p>
+      我们为<strong>每一个人</strong>都单独创建了<br>
+      <strong>独立的、加密的数据分区</strong><br><br>
+      你的所有节点信息，<strong>只属于你自己</strong>。
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 10: 第三步 ═══════════ -->
+<div class="slide slide-chapter" id="s10">
+  <div class="step-num">03</div>
+  <h2>开始对话</h2>
+  <p class="chap-sub">在飞书开发者小助手处，打开应用即可使用</p>
+</div>
+
+<!-- ═══════════ SLIDE 11: 推荐 ═══════════ -->
+<div class="slide slide-two" id="s11">
+  <h2>别忘了你的推荐工具</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="col-icon">🎁</div>
+      <h3>邀请朋友</h3>
+      <p>你可以看到自己邀请了多少人。<br>邀请码、邀请链接、推荐二维码都在后台。</p>
+    </div>
+    <div class="col">
+      <div class="col-icon">📲</div>
+      <h3>推荐二维码</h3>
+      <p>下载到手机相册，<br>随时发给想邀请的朋友。<br>就像当初推荐人发给你一样。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SLIDE 12: OUTRO ═══════════ -->
+<div class="slide slide-outro" id="s12">
+  <h2>你的节点，<br>上线了。</h2>
+  <p class="sub">下一集：第一次对话——取个名字，让它认识你。</p>
+</div>
+
+<!-- ═══════════ NAV DOTS ═══════════ -->
+<div class="nav-dots">
+  <a href="#s1" class="active"></a>
+  <a href="#s2"></a>
+  <a href="#s3"></a>
+  <a href="#s4"></a>
+  <a href="#s5"></a>
+  <a href="#s6"></a>
+  <a href="#s7"></a>
+  <a href="#s8"></a>
+  <a href="#s9"></a>
+  <a href="#s10"></a>
+  <a href="#s11"></a>
+  <a href="#s12"></a>
+</div>
+
+<script>
+// Highlight active nav dot on scroll
+const dots = document.querySelectorAll('.nav-dots a');
+const slides = document.querySelectorAll('.slide');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      dots.forEach(d => d.classList.remove('active'));
+      const idx = [...slides].indexOf(e.target);
+      if(dots[idx]) dots[idx].classList.add('active');
+    }
+  });
+}, { threshold:0.5 });
+slides.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
