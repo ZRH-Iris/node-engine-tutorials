@@ -375,17 +375,26 @@ body {
 .modal-close:hover { background:rgba(255,255,255,0.05); color:#E2E8F0; }
 .modal-body { padding:20px; }
 .modal-video {
-  aspect-ratio:16/9; background:linear-gradient(135deg, #0A0E17, #0D1322);
-  border-radius:12px; display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
+  aspect-ratio:16/9; background:#000;
+  border-radius:12px; overflow:hidden;
   border:1px solid var(--border); margin-bottom:14px;
+  position:relative;
 }
-.modal-video svg {
+.modal-video video {
+  width:100%; height:100%; object-fit:contain;
+  display:block;
+}
+.modal-video .placeholder {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  background:linear-gradient(135deg, #0A0E17, #0D1322);
+}
+.modal-video .placeholder svg {
   width:40px; height:40px; margin-bottom:10px; opacity:.3;
   color: var(--accent-glow);
 }
-.modal-video .vt { font-size:14px; color:#475569; }
-.modal-video .vh { font-size:11px; color:#1E293B; margin-top:3px; }
+.modal-video .placeholder .vt { font-size:14px; color:#475569; }
+.modal-video .placeholder .vh { font-size:11px; color:#1E293B; margin-top:3px; }
 .modal-info { font-size:13px; color:#94A3B8; line-height:1.8; }
 
 /* ── Footer ── */
@@ -485,10 +494,13 @@ body {
   <div class="modal">
     <div class="modal-head"><h3 id="mt"></h3><button class="modal-close" onclick="closeModal()">✕</button></div>
     <div class="modal-body">
-      <div class="modal-video">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/></svg>
-        <div class="vt" id="mv">视频即将上线</div>
-        <div class="vh" id="mh">录制完成后替换</div>
+      <div class="modal-video" id="mv-container">
+        <video id="mv-video" controls playsinline style="display:none"></video>
+        <div class="placeholder" id="mv-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/></svg>
+          <div class="vt">视频即将上线</div>
+          <div class="vh">录制完成后替换</div>
+        </div>
       </div>
       <div class="modal-info" id="mi"></div>
     </div>
@@ -516,12 +528,13 @@ body {
 })();
 
 /* ── Data ── */
+const VIDEO_BASE = 'http://47.120.13.126/videos/';
 const eps = [
-  { n:1, t:'3分钟拥有你的AI节点', content:'不用下载、不用配置，扫码或点链接就能注册。你的专属AI节点，飞书里能聊，网页后台也能管。' },
-  { n:2, t:'第一次对话：先取名，再让它认识你', content:'给你的节点起个名字，告诉它你是谁、做什么的。它会记住你，你问一句「你能为我做什么」，它会比你想的更懂你。' },
-  { n:3, t:'把材料交给节点，把产出拿回来', content:'录音、文档、图片、链接……统统发给它。告诉它你要Word还是PPT，做好直接发回飞书给你下载。' },
-  { n:4, t:'会省Token，节点才更聪明', content:'用得越久越聪明，但也要会省钱。学会阶段性总结、用/new开新话题、简单任务不用最贵的大脑——花的少，效果还好。' },
-  { n:5, t:'真正的节点：蒸馏你的记忆和技能', content:'AI不是普通工具，是超级生产力。把你的经历、人脉、学习、想法交给节点——蒸馏出来，再被AI放大。这才是节点的真正用法。' },
+  { n:1, t:'3分钟拥有你的AI节点', content:'不用下载、不用配置，扫码或点链接就能注册。你的专属AI节点，飞书里能聊，网页后台也能管。', video:'ep1.mp4' },
+  { n:2, t:'第一次对话：先取名，再让它认识你', content:'给你的节点起个名字，告诉它你是谁、做什么的。它会记住你，你问一句「你能为我做什么」，它会比你想的更懂你。', video:'ep2.mp4' },
+  { n:3, t:'把材料交给节点，把产出拿回来', content:'录音、文档、图片、链接……统统发给它。告诉它你要Word还是PPT，做好直接发回飞书给你下载。', video:'ep3.mp4' },
+  { n:4, t:'会省Token，节点才更聪明', content:'用得越久越聪明，但也要会省钱。学会阶段性总结、用/new开新话题、简单任务不用最贵的大脑——花的少，效果还好。', video:'ep4.mp4' },
+  { n:5, t:'真正的节点：蒸馏你的记忆和技能', content:'AI不是普通工具，是超级生产力。把你的经历、人脉、学习、想法交给节点——蒸馏出来，再被AI放大。这才是节点的真正用法。', video:'ep5.mp4' },
 ];
 
 function buildOutline(){
@@ -565,14 +578,20 @@ for(const ep of eps){
 function openModal(n){
   const ep=eps[n-1];
   document.getElementById('mt').textContent=`第${n}集  ${ep.t}`;
-  document.getElementById('mv').textContent='视频即将上线';
-  document.getElementById('mh').textContent='录制完成后替换';
+  const vid=document.getElementById('mv-video');
+  const ph=document.getElementById('mv-placeholder');
+  if(ep.video){
+    vid.src=VIDEO_BASE+ep.video; vid.style.display='block'; ph.style.display='none';
+  }else{
+    vid.style.display='none'; ph.style.display='';
+  }
   document.getElementById('mi').innerHTML=`<p>${ep.content}</p>`;
   document.getElementById('ol').classList.add('on');
   document.body.style.overflow='hidden';
 }
 function closeModal(){
   document.getElementById('ol').classList.remove('on');
+  const vid=document.getElementById('mv-video'); vid.pause(); vid.src='';
   document.body.style.overflow='';
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeOutline();}});
